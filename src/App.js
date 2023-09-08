@@ -1,11 +1,10 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import styled from "styled-components";
 import {Route, Routes} from "react-router-dom";
+import {Home} from "./components/home/home";
+import RequireAuth from "./components/common/RequireAuth";
 import {Login} from "./components/login/login";
-import {Home} from "./components/home";
-import {RequireAuth} from "react-auth-kit";
 import {Register} from "./components/register/register";
 
 const AppContainer = styled.div`
@@ -17,14 +16,9 @@ function App() {
     return (
         <AppContainer>
             <Routes>
-                <Route
-                    path="/"
-                    element={
-                        <RequireAuth loginPath="/login">
-                            <Home/>
-                        </RequireAuth>
-                    }
-                ></Route>
+                <Route element={<RequireAuth/>}>
+                    <Route path={"/"} element={<Home/>}/>
+                </Route>
                 <Route path="/login" element={<Login/>}></Route>
                 <Route path="/register" element={<Register/>}></Route>
             </Routes>

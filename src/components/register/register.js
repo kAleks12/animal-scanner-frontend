@@ -12,13 +12,26 @@ import {
 
 import {useFormik} from "formik";
 import axios, {AxiosError} from "axios";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+
+const PASSWORD_REGEX =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 
 function Register() {
     const [error, setError] = useState("");
-    const onSubmit = async (values: any) => {
+    const [validPassword, setValidPwd] = useState(false);
+    const [validMatch, setValidMatch] = useState(false);
+
+    const onSubmit = async (values) => {
         setError("");
+        if (!validPassword) {
+            setError("Password must contain one special character, one upper case letter, one number and have at least 8 characters");
+            return;
+        }
+        if (!validMatch) {
+            setError("Passwords do not match");
+            return;
+        }
 
         try {
             await axios.post(
@@ -46,9 +59,15 @@ function Register() {
             username: "",
             email: "",
             password: "",
+            repeatPassword: "",
         },
         onSubmit,
     });
+
+    useEffect(() => {
+        setValidPwd(PASSWORD_REGEX.test(formik.values.password));
+        setValidMatch(formik.values.password === formik.values.repeatPassword);
+    }, [formik.values.password, formik.values.repeatPassword])
 
     return (
         <Container>
@@ -82,6 +101,17 @@ function Register() {
                             value={formik.values.password}
                             onChange={formik.handleChange}
                             placeholder="Password"
+                            clearOnEscape
+                            size="large"
+                            type="password"
+                        />
+                    </InputWrapper>
+                    <InputWrapper>
+                        <StyledInput
+                            name="repeatPassword"
+                            value={formik.values.repeatPassword}
+                            onChange={formik.handleChange}
+                            placeholder="Repeat password"
                             clearOnEscape
                             size="large"
                             type="password"
