@@ -7,6 +7,7 @@ import RequireAuth from "./components/common/RequireAuth";
 import {Login} from "./components/login/login";
 import {Register} from "./components/register/register";
 import {Confirmation} from "./components/register/confirmation";
+import {Activation} from "./components/register/activation";
 
 const AppContainer = styled.div`
   width: 100%;
@@ -23,6 +24,7 @@ function App() {
                 <Route path="/login" element={<Login/>}></Route>
                 <Route path="/register" element={<Register/>}></Route>
                 <Route path="/confirmation" element={<Confirmation/>}></Route>
+                <Route path="/activation" element={<Activation/>}></Route>
             </Routes>
         </AppContainer>
     );

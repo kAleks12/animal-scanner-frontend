@@ -3,7 +3,7 @@ import {HeadingXXLarge,} from "baseui/typography";
 import {Container, FormButtonWrapper, InnerContainer, InputWrapper, StyledInput,} from "../commons";
 
 import {useFormik} from "formik";
-import axios from "../../api/axios";
+import axiosPrivate from "../../api/axios";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import {toast, ToastContainer} from "react-toastify";
@@ -22,12 +22,8 @@ function Login() {
     const onSubmit = async (values) => {
         try {
             const {user, password} = values;
-            const response = await axios.post(LOGIN_URL,
-                JSON.stringify({user, password}),
-                {
-                    headers: {'Content-Type': 'application/json'},
-                    withCredentials: true
-                }
+            const response = await axiosPrivate.post(LOGIN_URL,
+                JSON.stringify({user, password})
             );
 
             const accessToken = response?.data?.access_token;
@@ -35,9 +31,9 @@ function Login() {
             navigate(from, {replace: true});
         } catch (err) {
             if (!err?.response) {
-                toast.error("Connection to server failed")
+                toast.error("Connection to server failed");
             } else if (err.response?.status === 403) {
-                toast.error("Invalid credentials")
+                toast.error("Invalid credentials");
             } else if (err.response?.status === 500) {
                 toast.error("Server error, try again later");
             } else {
@@ -53,7 +49,6 @@ function Login() {
         },
         onSubmit,
     });
-
 
 
     return (

@@ -5,13 +5,13 @@ import {useEffect} from "react";
 
 const Confirmation = () => {
     const { state } = useLocation();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (state === null) {
-            navigate("/login")
+            navigate("/login");
         }
-    }, [state, navigate])
+    }, [state, navigate]);
 
     return (
         <Container>
@@ -22,7 +22,7 @@ const Confirmation = () => {
                 </ParagraphMedium>
             </InnerContainer>
         </Container>
-    )
+    );
 };
 
 export {Confirmation};

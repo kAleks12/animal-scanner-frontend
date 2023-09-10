@@ -26,11 +26,11 @@ function Register() {
 
     const onSubmit = async (values) => {
         if (!validPassword) {
-            toast.error("Password must contain one special character, one upper case letter, one number and have at least 8 characters")
+            toast.error("Password must contain one special character, one upper case letter, one number and have at least 8 characters");
             return;
         }
         if (!validMatch) {
-            toast.error("Passwords must match")
+            toast.error("Passwords must match");
             return;
         }
 
@@ -44,7 +44,7 @@ function Register() {
                 }
             );
 
-            navigate("/confirmation", {state: {email: values.email}})
+            navigate("/confirmation", {state: {email: values.email}});
         } catch (err) {
             if (err.response?.status === 500) {
                 toast.error("Server error, try again later");
@@ -70,7 +70,7 @@ function Register() {
     useEffect(() => {
         setValidPwd(PASSWORD_REGEX.test(formik.values.password));
         setValidMatch(formik.values.password === formik.values.repeatPassword);
-    }, [formik.values.password, formik.values.repeatPassword])
+    }, [formik.values.password, formik.values.repeatPassword]);
 
     return (
         <>

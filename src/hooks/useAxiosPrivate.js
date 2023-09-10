@@ -30,9 +30,6 @@ const useAxiosPrivate = () => {
                     prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
                     return axiosPrivate(prevRequest);
                 }
-                else {
-                    console.log("unhandled!")
-                }
                 return Promise.reject(error);
             }
         );
