@@ -35,22 +35,13 @@ function Login() {
             navigate(from, {replace: true});
         } catch (err) {
             if (!err?.response) {
-                toast("Connection to server failed")
-            } else if (err.response?.status === 404) {
-                toast("Invalid credentials")
+                toast.error("Connection to server failed")
+            } else if (err.response?.status === 403) {
+                toast.error("Invalid credentials")
             } else if (err.response?.status === 500) {
-                toast("Server error try again later");
+                toast.error("Server error, try again later");
             } else {
-                toast("Connection to server failed", {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
+                toast.error("Connection to server failed");
             }
         }
     }
