@@ -16,10 +16,12 @@ export const InnerContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 6rem 4rem;
+  padding: 4rem 4rem;
   border-radius: 1rem;
   box-shadow: 0 2px 8px rgba(15, 15, 15, 0.6);
   background-color: #1c1c1c;
+  max-height: 80vh;
+  max-width: 80vw;
 `;
 
 export const InputWrapper = styled.div`
@@ -46,10 +48,11 @@ export const StyledInput = styled(Input)`
   margin-bottom: 20em !important;
 `;
 
-export const ErrorText = styled.span`
-  color: #eb5d5d;
-  font-size: large;
-  padding: 1rem;
-  text-align: center;
+export const DefaultHeader = styled.span`
+  color: white;
+  font-size: xx-large;
+  font-weight: bold;
+  padding: 2rem;
+  text-align: left;
   align-self: center;
 `;

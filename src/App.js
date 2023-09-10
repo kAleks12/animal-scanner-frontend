@@ -6,6 +6,7 @@ import {Home} from "./components/home/home";
 import RequireAuth from "./components/common/RequireAuth";
 import {Login} from "./components/login/login";
 import {Register} from "./components/register/register";
+import {Confirmation} from "./components/register/confirmation";
 
 const AppContainer = styled.div`
   width: 100%;
@@ -21,6 +22,7 @@ function App() {
                 </Route>
                 <Route path="/login" element={<Login/>}></Route>
                 <Route path="/register" element={<Register/>}></Route>
+                <Route path="/confirmation" element={<Confirmation/>}></Route>
             </Routes>
         </AppContainer>
     );

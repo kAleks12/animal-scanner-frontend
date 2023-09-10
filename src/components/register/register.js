@@ -12,7 +12,7 @@ import {
 
 import {useFormik} from "formik";
 import {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "../../api/axios";
@@ -22,6 +22,7 @@ const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@
 function Register() {
     const [validPassword, setValidPwd] = useState(false);
     const [validMatch, setValidMatch] = useState(false);
+    const navigate = useNavigate()
 
     const onSubmit = async (values) => {
         if (!validPassword) {
@@ -43,6 +44,7 @@ function Register() {
                 }
             );
 
+            navigate("/confirmation", {state: {email: values.email}})
         } catch (err) {
             if (err.response?.status === 500) {
                 toast.error("Server error, try again later");
