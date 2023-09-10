@@ -8,6 +8,7 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  background: #121212;
 `;
 
 export const InnerContainer = styled.div`
@@ -36,6 +37,7 @@ export const FormButtonWrapper = styled.div`
   width: 100%;
   margin: 1rem 0;
   gap: 1rem;
+  padding: 2rem 0 0 0;
 `;
 
 
