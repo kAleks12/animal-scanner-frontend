@@ -1,66 +1,66 @@
-import {Button} from "baseui/button";
-import {
-    HeadingXXLarge,
-} from "baseui/typography";
-import {
-    Container,
-    FormButtonWrapper,
-    InnerContainer,
-    InputWrapper,
-    StyledInput,
-} from "../commons";
-
-import {useFormik} from "formik";
+import {Container, FormButtonWrapper, InnerContainer, InputWrapper, StyledInput} from "../commons";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import axiosPrivate from "../../api/axios";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import axios from "../../api/axios";
+import {Button} from "baseui/button";
+import {useFormik} from "formik";
+import {HeadingXXLarge} from "baseui/typography";
 
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 
-function Register() {
+
+const SetPassword = () => {
+    const navigate = useNavigate()
+    const [searchParams] = useSearchParams();
+    const token = searchParams.get("token")
     const [validPassword, setValidPwd] = useState(false);
     const [validMatch, setValidMatch] = useState(false);
-    const navigate = useNavigate()
+    const [passwordSet, setPasswordSet] = useState(false)
 
     const onSubmit = async (values) => {
-        if (!validPassword) {
-            toast.error("Password must contain one special character, one upper case letter, one number and have at least 8 characters");
+        if (passwordSet) {
+            toast.error("Password was already set");
             return;
         }
         if (!validMatch) {
             toast.error("Passwords must match");
             return;
         }
+        if (!validPassword) {
+            toast.error("Password must contain one special character, one upper case letter, one number and have at least 8 characters");
+            return;
+        }
 
         try {
-            await axios.post(
-                "http://localhost:8080/api/v1/auth/register",
+            await axiosPrivate.post(
+                "/auth/set-password",
+                null,
                 {
-                    "username": values.username,
-                    "email": values.email,
-                    "password": values.password
+                    headers: {Authorization: "Bearer " + token},
+                    params: {new_password: values.password}
                 }
             );
-
-            navigate("/confirmation", {state: {email: values.email}});
+            toast.success("Password was updated successfully");
+            setPasswordSet(true);
         } catch (err) {
-            if (err.response?.status === 500) {
+            if (err?.code === "ERR_NETWORK") {
+                toast.error("Connection to server failed");
+            } else if (err.response?.status === 409) {
+                toast.error("Password is already in use");
+            } else if (err.response?.status === 500) {
                 toast.error("Server error, try again later");
             } else if (err.response?.status === 400) {
-                toast.error("Username is already taken");
-            }
-            else {
-                toast.error("Connection to server failed");
+                toast.error("Reset token has either expired or has been used");
+            } else {
+                toast.error("Unknown error");
             }
         }
     };
 
     const formik = useFormik({
         initialValues: {
-            username: "",
-            email: "",
             password: "",
             repeatPassword: "",
         },
@@ -72,33 +72,18 @@ function Register() {
         setValidMatch(formik.values.password === formik.values.repeatPassword);
     }, [formik.values.password, formik.values.repeatPassword]);
 
+    useEffect(() => {
+        if (token === null) {
+            navigate("/login");
+        }
+    }, [token, navigate])
+
     return (
         <>
             <Container>
                 <InnerContainer>
+                    <HeadingXXLarge>Set new password!</HeadingXXLarge>
                     <form onSubmit={formik.handleSubmit}>
-                        <HeadingXXLarge>Pleased to meet you!</HeadingXXLarge>
-                        <InputWrapper>
-                            <StyledInput
-                                name="username"
-                                value={formik.values.username}
-                                onChange={formik.handleChange}
-                                placeholder="Username"
-                                clearOnEscape
-                                size="large"
-                            />
-                        </InputWrapper>
-                        <InputWrapper>
-                            <StyledInput
-                                name="email"
-                                value={formik.values.email}
-                                onChange={formik.handleChange}
-                                placeholder="Email"
-                                clearOnEscape
-                                size="large"
-                                type="email"
-                            />
-                        </InputWrapper>
                         <InputWrapper>
                             <StyledInput
                                 name="password"
@@ -123,9 +108,8 @@ function Register() {
                         </InputWrapper>
                         <FormButtonWrapper>
                             <Button size="large" kind="primary" isLoading={formik.isSubmitting}>
-                                Sign up
+                                Reset password
                             </Button>
-                            <Link to="/login">Already have an account?</Link>
                         </FormButtonWrapper>
                     </form>
                 </InnerContainer>
@@ -143,7 +127,7 @@ function Register() {
                 theme="dark"
             />
         </>
-    );
-}
+    )
+};
 
-export {Register};
+export {SetPassword};

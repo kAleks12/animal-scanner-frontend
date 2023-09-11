@@ -17,12 +17,12 @@ const Activation = () => {
                 headers: {Authorization: "Bearer " + token},
             });
         } catch (err) {
-            if (!err?.response) {
+            if (err?.code === "ERR_NETWORK") {
                 toast.error("Connection to server failed");
             } else if (err.response?.status === 500) {
                 toast.error("Server error, try again later");
             } else {
-                toast.error("Connection to server failed");
+                toast.error("Unknown error");
             }
         }
     }, [token]);

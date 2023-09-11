@@ -2,12 +2,14 @@ import React from "react";
 import "./App.css";
 import styled from "styled-components";
 import {Route, Routes} from "react-router-dom";
-import {Home} from "./components/home/home";
+import {Home} from "./components/home/Home";
 import RequireAuth from "./components/common/RequireAuth";
-import {Login} from "./components/login/login";
-import {Register} from "./components/register/register";
-import {Confirmation} from "./components/register/confirmation";
-import {Activation} from "./components/register/activation";
+import {Login} from "./components/login/Login";
+import {Register} from "./components/register/Register";
+import {Confirmation} from "./components/register/Confirmation";
+import {Activation} from "./components/register/Activation";
+import {SetPassword} from "./components/password_reset/SetPassword";
+import {ResetPassword} from "./components/password_reset/PasswordReset";
 
 const AppContainer = styled.div`
   width: 100%;
@@ -25,6 +27,8 @@ function App() {
                 <Route path="/register" element={<Register/>}></Route>
                 <Route path="/confirmation" element={<Confirmation/>}></Route>
                 <Route path="/activation" element={<Activation/>}></Route>
+                <Route path="/set-password" element={<SetPassword/>}></Route>
+                <Route path="/reset-password" element={<ResetPassword/>}></Route>
             </Routes>
         </AppContainer>
     );

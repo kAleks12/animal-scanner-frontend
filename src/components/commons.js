@@ -1,5 +1,6 @@
-import { Input } from "baseui/input";
+import {Input} from "baseui/input";
 import styled from "styled-components";
+import {Link} from "react-router-dom";
 
 export const Container = styled.div`
   width: 100%;
@@ -39,7 +40,16 @@ export const FormButtonWrapper = styled.div`
   width: 100%;
   margin: 1rem 0;
   gap: 1rem;
-  padding: 2rem 0 0 0;
+  padding: 1rem 0 0 0;
+`;
+
+export const ResetPasswordContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 1rem 0;
+  padding: 1rem 0 0 0;
 `;
 
 
@@ -55,4 +65,15 @@ export const DefaultHeader = styled.span`
   padding: 2rem;
   text-align: left;
   align-self: center;
+`;
+
+
+export const DefaultLink = styled(Link)`
+  color: rebeccapurple;
+  font-size: large;
+  transition: transform .1s ease-in;
+
+  &:hover {
+    transform: scale(1.03);  
+  }
 `;

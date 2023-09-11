@@ -1,10 +1,18 @@
 import {Button} from "baseui/button";
 import {HeadingXXLarge,} from "baseui/typography";
-import {Container, FormButtonWrapper, InnerContainer, InputWrapper, StyledInput,} from "../commons";
+import {
+    Container,
+    DefaultLink,
+    FormButtonWrapper,
+    InnerContainer,
+    InputWrapper,
+    ResetPasswordContainer,
+    StyledInput,
+} from "../commons";
 
 import {useFormik} from "formik";
 import axiosPrivate from "../../api/axios";
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -30,14 +38,14 @@ function Login() {
             setAuth({user, password, accessToken});
             navigate(from, {replace: true});
         } catch (err) {
-            if (!err?.response) {
+            if (err?.code === "ERR_NETWORK") {
                 toast.error("Connection to server failed");
             } else if (err.response?.status === 403) {
                 toast.error("Invalid credentials");
             } else if (err.response?.status === 500) {
                 toast.error("Server error, try again later");
             } else {
-                toast.error("Connection to server failed");
+                toast.error("Unknown error");
             }
         }
     }
@@ -83,8 +91,11 @@ function Login() {
                             <Button size="large" kind="primary" isLoading={formik.isSubmitting}>
                                 Login
                             </Button>
-                            <Link to="/register">No account yet?</Link>
+                            <DefaultLink to="/register">No account yet?</DefaultLink>
                         </FormButtonWrapper>
+                        <ResetPasswordContainer>
+                            <DefaultLink to="/reset-password">Forgot password?</DefaultLink>
+                        </ResetPasswordContainer>
                     </form>
                 </InnerContainer>
             </Container>

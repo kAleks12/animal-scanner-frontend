@@ -4,7 +4,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 
 const Confirmation = () => {
-    const { state } = useLocation();
+    const {state} = useLocation();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -16,9 +16,9 @@ const Confirmation = () => {
     return (
         <Container>
             <InnerContainer>
-                <DefaultHeader>Thanks for creating a new account!</DefaultHeader>
+                <DefaultHeader>{state?.header}</DefaultHeader>
                 <ParagraphMedium>
-                    Activation email has been sent to {state?.email}
+                    {state?.msg} {state?.email}
                 </ParagraphMedium>
             </InnerContainer>
         </Container>
