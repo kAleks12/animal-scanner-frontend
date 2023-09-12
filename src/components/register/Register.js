@@ -1,6 +1,14 @@
 import {Button} from "baseui/button";
 import {HeadingXXLarge,} from "baseui/typography";
-import {Container, DefaultLink, FormButtonWrapper, InnerContainer, InputWrapper, StyledInput,} from "../commons";
+import {
+    Container,
+    DefaultLink,
+    FormButtonWrapper,
+    InnerContainer,
+    InputWrapper,
+    RegisterLinkContainer,
+    StyledInput,
+} from "../commons";
 
 import {useFormik} from "formik";
 import {useEffect, useState} from "react";
@@ -125,8 +133,10 @@ function Register() {
                             <Button size="large" kind="primary" isLoading={formik.isSubmitting}>
                                 Sign up
                             </Button>
-                            <DefaultLink to="/login">Already have an account?</DefaultLink>
                         </FormButtonWrapper>
+                        <RegisterLinkContainer>
+                            <DefaultLink to="/login">Already have an account?</DefaultLink>
+                        </RegisterLinkContainer>
                     </form>
                 </InnerContainer>
             </Container>

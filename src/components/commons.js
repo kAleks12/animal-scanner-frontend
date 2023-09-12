@@ -43,7 +43,16 @@ export const FormButtonWrapper = styled.div`
   padding: 1rem 0 0 0;
 `;
 
-export const ResetPasswordContainer = styled.div`
+export const LoginLinkContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 1rem 0;
+  padding: 1rem 0 0 0;
+`;
+
+export const RegisterLinkContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,7 +60,6 @@ export const ResetPasswordContainer = styled.div`
   margin: 1rem 0;
   padding: 1rem 0 0 0;
 `;
-
 
 export const StyledInput = styled(Input)`
   width: 100%;

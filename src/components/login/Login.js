@@ -6,7 +6,7 @@ import {
     FormButtonWrapper,
     InnerContainer,
     InputWrapper,
-    ResetPasswordContainer,
+    LoginLinkContainer,
     StyledInput,
 } from "../commons";
 
@@ -30,9 +30,10 @@ function Login() {
     const onSubmit = async (values) => {
         try {
             const {user, password} = values;
-            const response = await axiosPrivate.post(LOGIN_URL,
-                JSON.stringify({user, password})
-            );
+            const body = JSON.stringify({user, password});
+            const response = await axiosPrivate.post(LOGIN_URL, body, {
+                headers: {'Content-Type': 'application/json'}
+            });
 
             const accessToken = response?.data?.access_token;
             setAuth({user, password, accessToken});
@@ -91,11 +92,11 @@ function Login() {
                             <Button size="large" kind="primary" isLoading={formik.isSubmitting}>
                                 Login
                             </Button>
-                            <DefaultLink to="/register">No account yet?</DefaultLink>
                         </FormButtonWrapper>
-                        <ResetPasswordContainer>
+                        <LoginLinkContainer>
                             <DefaultLink to="/reset-password">Forgot password?</DefaultLink>
-                        </ResetPasswordContainer>
+                            <DefaultLink to="/register">No account yet?</DefaultLink>
+                        </LoginLinkContainer>
                     </form>
                 </InnerContainer>
             </Container>
