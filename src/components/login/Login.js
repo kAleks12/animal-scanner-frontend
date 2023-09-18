@@ -11,7 +11,7 @@ import {
 } from "../commons";
 
 import {useFormik} from "formik";
-import axiosPrivate from "../../api/axios";
+import axios from "../../api/axios";
 import {useLocation, useNavigate} from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import {toast, ToastContainer} from "react-toastify";
@@ -20,7 +20,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const LOGIN_URL = 'auth/login';
 
 function Login() {
-    const {setAuth} = useAuth();
+    const {auth, setAuth} = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -31,12 +31,13 @@ function Login() {
         try {
             const {user, password} = values;
             const body = JSON.stringify({user, password});
-            const response = await axiosPrivate.post(LOGIN_URL, body, {
+            const response = await axios.post(LOGIN_URL, body, {
                 headers: {'Content-Type': 'application/json'}
             });
 
             const accessToken = response?.data?.access_token;
             setAuth({user, password, accessToken});
+            console.log(auth);
             navigate(from, {replace: true});
         } catch (err) {
             if (err?.code === "ERR_NETWORK") {

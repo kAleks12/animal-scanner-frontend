@@ -1,6 +1,7 @@
 import {Input} from "baseui/input";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
+import {Select} from "baseui/select";
 
 export const Container = styled.div`
   width: 100%;
@@ -25,12 +26,29 @@ export const InnerContainer = styled.div`
   max-width: 80vw;
 `;
 
+export const HomeWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 4rem;
+    border-radius: 1rem;
+    height: 80vh;
+    width: 80vw;
+`;
+
+
 export const InputWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   margin: 1rem 0;
+`;
+
+export const SearchInputWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    margin: 1rem 0;
+    gap: 1rem;
 `;
 
 export const FormButtonWrapper = styled.div`
@@ -66,6 +84,12 @@ export const StyledInput = styled(Input)`
   margin-bottom: 20em !important;
 `;
 
+export const StyledSelect = styled(Select)`
+  width: 80%;
+  padding: 0 0 2rem 0;
+  z-index: 2;
+`;
+
 export const DefaultHeader = styled.span`
   color: white;
   font-size: xx-large;
@@ -84,4 +108,15 @@ export const DefaultLink = styled(Link)`
   &:hover {
     transform: scale(1.03);  
   }
+`;
+
+export const SearchWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    width: 30vw;
+    height: 100%;
+    padding: 1rem 0 0 0;
 `;

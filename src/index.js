@@ -4,8 +4,8 @@ import "./index.css";
 import App from "./App";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 
-import { Provider as StyletronProvider } from "styletron-react";
-import { Client as Styletron } from "styletron-engine-atomic";
+import {Provider as StyletronProvider} from "styletron-react";
+import {Client as Styletron} from "styletron-engine-atomic";
 
 import {
     BaseProvider,
@@ -34,17 +34,17 @@ root.render(
             <BaseProvider
                 theme={DarkTheme}
                 overrides={{
-                    AppContainer: { style: { width: "100%", height: "100%" } },
+                    AppContainer: {style: {width: "100%", height: "100%"}},
                 }}
             >
                 <Centered>
-                    <AuthProvider>
-                        <BrowserRouter>
+                    <BrowserRouter>
+                        <AuthProvider>
                             <Routes>
-                                <Route path="/*" element={<App />} />
+                                <Route path="/*" element={<App/>}/>
                             </Routes>
-                        </BrowserRouter>
-                    </AuthProvider>
+                        </AuthProvider>
+                    </BrowserRouter>
                 </Centered>
             </BaseProvider>
         </StyletronProvider>
