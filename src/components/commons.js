@@ -46,7 +46,7 @@ export const SearchInputWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 80%;
+    width: 100%;
     margin: 1rem 0;
     gap: 1rem;
 `;
@@ -85,9 +85,8 @@ export const StyledInput = styled(Input)`
 `;
 
 export const StyledSelect = styled(Select)`
-  width: 80%;
+  width: 100%;
   padding: 0 0 2rem 0;
-  z-index: 2;
 `;
 
 export const DefaultHeader = styled.span`
@@ -114,9 +113,7 @@ export const SearchWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    gap: 1rem;
-    width: 30vw;
-    height: 100%;
-    padding: 1rem 0 0 0;
+    justify-content: center;
+    width: 80%;
+    padding: 1rem 0 2rem 0;
 `;

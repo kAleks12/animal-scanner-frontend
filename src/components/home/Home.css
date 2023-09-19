@@ -1,0 +1,10 @@
+.map {
+    height: 60vh    ;
+    width: 80%;
+    z-index: 0;
+}
+
+.select {
+    width: 100%;
+    z-index: 0;
+}
