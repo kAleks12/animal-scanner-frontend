@@ -28,12 +28,16 @@ function Home() {
     const fetchOptions = async () => {
         try {
             if (search.length < 3) {
+                toast("Enter more than 3 characters")
                 return;
             }
-            await new Promise(r => setTimeout(r, 1000));
-            const response = await axiosPrivate.get("/search", {
-                params: {'query': search}
-            });
+            const response = await toast.promise(
+                axiosPrivate.get("/search", {params: {'query': search}}),
+                {
+                    pending: 'Loading search results',
+                    success: 'Search results loaded',
+                }
+            );
 
             setItems(response.data)
         } catch (err) {
@@ -63,7 +67,6 @@ function Home() {
         return null;
     }
 
-    
 
     const markers = [[51.1089776, 17.0326689], [51.1089778, 17.0326689], [51.1089779, 17.0326689]];
     return (
