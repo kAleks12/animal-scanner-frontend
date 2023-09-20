@@ -1,65 +1,85 @@
-import {useNavigate} from "react-router-dom";
-import AuthContext from "../../context/AuthProvider";
-import {useContext, useState} from "react";
+import * as React from "react";
+import {useEffect, useState} from "react";
 import {MapContainer, Marker, Popup, TileLayer, useMap} from 'react-leaflet'
 import "./Home.css";
-import {
-    Container,
-    HomeWrapper,
-    InnerContainer,
-    SearchInputWrapper,
-    SearchWrapper,
-    StyledInput,
-    StyledSelect
-} from "../commons";
+import {Container, SearchInputWrapper, SearchWrapper, StyledInput} from "../commons";
 import {Button} from "baseui/button";
 import MarkerClusterGroup from "@changey/react-leaflet-markercluster";
 import {toast, ToastContainer} from "react-toastify";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import {Select, TYPE} from "baseui/select";
 import {ANCHOR, Drawer} from "baseui/drawer";
-import * as React from "react";
 import SubmissionCard from "./SubmissionCard";
 
 function Home() {
-    const [search, setSearch] = useState("");
     const axiosPrivate = useAxiosPrivate()
     const [center, setCenter] = useState([51.1089776, 17.0326689]);
-    const [value, setValue] = useState([]);
-    const [items, setItems] = useState([]);
-    const [isOpen, setIsOpen] = useState(false);
-    const [form, setForm] = useState({});
-    const [image, setImage] = useState(null);
 
+    // search states
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectVal, setSelectVal] = useState([]);
+    const [searchItems, setSearchItems] = useState([]);
+
+    // drawer states
+    const [isOpen, setIsOpen] = useState(false);
+    const [formBody, setFormBody] = useState({});
+    const [formImage, setFormImage] = useState(null);
+
+    // marker state
+    const [subPoints, setSubPoints] = useState([]);
+
+    useEffect(() => {
+        axiosPrivate.get('/submission')
+            .then(response => setSubPoints(response.data))
+            .catch(err => {
+                if (err?.code === "ERR_NETWORK") {
+                    toast.error("Connection to server failed");
+                } else if (err.response?.status === 400) {
+                    toast.error("Invalid credentials");
+                } else if (err.response?.status === 500) {
+                    toast.error("Server error, try again later");
+                } else {
+                    toast.error("Unknown error");
+                }
+            });
+    }, []);
 
     const fetchSubmission = async (subId) => {
         try {
             const response = await axiosPrivate.get(`/submission/${subId}`);
-            setForm(response.data);
+            setFormBody(response.data);
             const photoResponse = await axiosPrivate.get(`/submission/${subId}/photo`, {responseType: 'blob'});
             const imageUrl = URL.createObjectURL(photoResponse.data);
-            setImage(imageUrl);
+            setFormImage(imageUrl);
             setIsOpen(true);
         } catch (err) {
-
+            if (err?.code === "ERR_NETWORK") {
+                toast.error("Connection to server failed");
+            } else if (err.response?.status === 400) {
+                toast.error("Invalid credentials");
+            } else if (err.response?.status === 500) {
+                toast.error("Server error, try again later");
+            } else {
+                toast.error("Unknown error");
+            }
         }
     }
 
     const fetchOptions = async () => {
         try {
-            if (search.length < 3) {
+            if (searchQuery.length < 3) {
                 toast("Enter more than 3 characters")
                 return;
             }
             const response = await toast.promise(
-                axiosPrivate.get("/search", {params: {'query': search}}),
+                axiosPrivate.get("/search", {params: {'query': searchQuery}}),
                 {
                     pending: 'Loading search results',
                     success: 'Search results loaded',
                 }
             );
 
-            setItems(response.data)
+            setSearchItems(response.data)
         } catch (err) {
             if (err?.code === "ERR_NETWORK") {
                 toast.error("Connection to server failed");
@@ -75,7 +95,7 @@ function Home() {
 
 
     const handleOnSelect = (item) => {
-        setValue(item.value)
+        setSelectVal(item.value)
         if (item.option !== null) {
             setCenter([item.option.value.x, item.option.value.y])
         }
@@ -83,18 +103,24 @@ function Home() {
 
     function ChangeView({center}) {
         const map = useMap();
-        map.setView(center, 13);
-        return null;
+        if (center === null) {
+            return;
+        }
+        if (map.getZoom() === undefined) {
+            map.setView(center, 13);
+        }
+        else {
+            map.setView(center, map.getZoom())
+        }
     }
 
     const drawerOnCloseHandler = () => {
         setIsOpen(false);
-        setImage(null);
-        setForm(null);
+        setFormImage(null);
+        setFormBody(null);
     }
 
 
-    const markers = [[51.1089776, 17.0326689], [51.1089778, 17.0326689], [51.1089779, 17.0326689]];
     return (
         <>
             <Container>
@@ -102,8 +128,8 @@ function Home() {
                     <SearchInputWrapper>
                         <StyledInput
                             name="user"
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Search for a place"
                             clearOnEscape
                             size="large"
@@ -113,20 +139,20 @@ function Home() {
                             Search
                         </Button>
                     </SearchInputWrapper>
-
                     <div className="select">
                         <Select
-                            options={items}
+                            options={searchItems}
                             labelKey="label"
                             valueKey="value"
                             onChange={handleOnSelect}
-                            value={value}
+                            value={selectVal}
                             maxDropdownHeight="300px"
                             type={TYPE.search}
                             placeholder="Pick result"
                         />
                     </div>
                 </SearchWrapper>
+
                 <MapContainer className="map" scrollWheelZoom={false}>
                     <ChangeView center={center}/>
                     <TileLayer
@@ -135,19 +161,21 @@ function Home() {
                     />
 
                     <MarkerClusterGroup>
-                        <Marker position={[49.8397, 24.0297]}>
-                            <Popup>
-                                <Button size="large" kind="primary"
-                                        onClick={(e) => fetchSubmission("a274efe2-0125-4650-9d67-31d27e8dfefc")}>
-                                    See submission
-                                </Button>
-                            </Popup>
-                        </Marker>
-                        <Marker position={[52.2297, 21.0122]}/>
-                        <Marker position={[51.5074, -0.0901]}/>
+                        {subPoints.map((point, index) => (
+                            <Marker key={index} position={[point.x, point.y]}>
+                                <Popup>
+                                    <Button size="large" kind="primary"
+                                            onClick={async () => {
+                                                await setCenter([point.x, point.y]);
+                                                await fetchSubmission(point.id);
+                                            }}>
+                                        See submission
+                                    </Button>
+                                </Popup>
+                            </Marker>
+                        ))}
                     </MarkerClusterGroup>
                 </MapContainer>
-
 
                 <Drawer
                     isOpen={isOpen}
@@ -155,7 +183,7 @@ function Home() {
                     onClose={drawerOnCloseHandler}
                     anchor={ANCHOR.right}
                 >
-                    <SubmissionCard form={form} image={image}/>
+                    <SubmissionCard form={formBody} image={formImage}/>
                 </Drawer>
             </Container>
             <ToastContainer
@@ -174,4 +202,6 @@ function Home() {
     )
 }
 
-export {Home};
+export {
+    Home
+};
