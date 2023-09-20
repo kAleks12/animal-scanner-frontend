@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {MapContainer, Marker, Popup, TileLayer, useMap} from 'react-leaflet'
 import "./Home.css";
 import {Container, SearchInputWrapper, SearchWrapper, StyledInput} from "../commons";
@@ -28,6 +28,12 @@ function Home() {
     // marker state
     const [subPoints, setSubPoints] = useState([]);
 
+    const popupElRef = useRef(null);
+    const hideElement = () => {
+        if (!popupElRef.current) return;
+        popupElRef.current.close();
+    };
+
     useEffect(() => {
         axiosPrivate.get('/submission')
             .then(response => setSubPoints(response.data))
@@ -42,7 +48,7 @@ function Home() {
                     toast.error("Unknown error");
                 }
             });
-    }, []);
+    }, [axiosPrivate]);
 
     const fetchSubmission = async (subId) => {
         try {
@@ -51,7 +57,6 @@ function Home() {
             const photoResponse = await axiosPrivate.get(`/submission/${subId}/photo`, {responseType: 'blob'});
             const imageUrl = URL.createObjectURL(photoResponse.data);
             setFormImage(imageUrl);
-            setIsOpen(true);
         } catch (err) {
             if (err?.code === "ERR_NETWORK") {
                 toast.error("Connection to server failed");
@@ -103,14 +108,14 @@ function Home() {
 
     function ChangeView({center}) {
         const map = useMap();
-        if (center === null) {
+        if (center === null || center === undefined) {
             return;
         }
+
         if (map.getZoom() === undefined) {
             map.setView(center, 13);
-        }
-        else {
-            map.setView(center, map.getZoom())
+        } else {
+            map.flyTo(center, map.getZoom())
         }
     }
 
@@ -163,11 +168,13 @@ function Home() {
                     <MarkerClusterGroup>
                         {subPoints.map((point, index) => (
                             <Marker key={index} position={[point.x, point.y]}>
-                                <Popup>
+                                <Popup ref={popupElRef}>
                                     <Button size="large" kind="primary"
                                             onClick={async () => {
-                                                await setCenter([point.x, point.y]);
+                                                hideElement();
+                                                setCenter([point.x, point.y]);
                                                 await fetchSubmission(point.id);
+                                                setIsOpen(true);
                                             }}>
                                         See submission
                                     </Button>
@@ -176,16 +183,17 @@ function Home() {
                         ))}
                     </MarkerClusterGroup>
                 </MapContainer>
-
-                <Drawer
-                    isOpen={isOpen}
-                    autoFocus
-                    onClose={drawerOnCloseHandler}
-                    anchor={ANCHOR.right}
-                >
-                    <SubmissionCard form={formBody} image={formImage}/>
-                </Drawer>
             </Container>
+
+            <Drawer
+                isOpen={isOpen}
+                autoFocus
+                onClose={drawerOnCloseHandler}
+                anchor={ANCHOR.right}
+            >
+                <SubmissionCard form={formBody} image={formImage}/>
+            </Drawer>
+
             <ToastContainer
                 position="top-center"
                 autoClose={5000}
@@ -202,6 +210,4 @@ function Home() {
     )
 }
 
-export {
-    Home
-};
+export {Home};
