@@ -20,7 +20,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const LOGIN_URL = 'auth/login';
 
 function Login() {
-    const {auth, setAuth} = useAuth();
+    const {setAuth} = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -36,8 +36,7 @@ function Login() {
             });
 
             const accessToken = response?.data?.access_token;
-            setAuth({user, password, accessToken});
-            console.log(auth);
+            setAuth({user, accessToken});
             navigate(from, {replace: true});
         } catch (err) {
             if (err?.code === "ERR_NETWORK") {
