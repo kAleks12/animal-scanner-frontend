@@ -10,6 +10,7 @@ import {Confirmation} from "./components/register/Confirmation";
 import {Activation} from "./components/register/Activation";
 import {SetPassword} from "./components/password_reset/SetPassword";
 import {ResetPassword} from "./components/password_reset/PasswordReset";
+import {NewSubmission} from "./components/submission/NewSubmission";
 
 const AppContainer = styled.div`
   width: 100%;
@@ -29,6 +30,7 @@ function App() {
                 <Route path="/activation" element={<Activation/>}></Route>
                 <Route path="/set-password" element={<SetPassword/>}></Route>
                 <Route path="/reset-password" element={<ResetPassword/>}></Route>
+                <Route path="/add-submission" element={<NewSubmission/>}></Route>
             </Routes>
         </AppContainer>
     );

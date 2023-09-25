@@ -1,15 +1,17 @@
 import * as React from "react";
 import {useEffect, useRef, useState} from "react";
-import {MapContainer, Marker, Popup, TileLayer, useMap} from 'react-leaflet'
+import {MapContainer, Marker, Popup, TileLayer, useMap, useMapEvent} from 'react-leaflet'
 import "./Home.css";
 import {Container, SearchInputWrapper, SearchWrapper, StyledInput} from "../commons";
-import {Button} from "baseui/button";
+import {Button, KIND} from "baseui/button";
 import MarkerClusterGroup from "@changey/react-leaflet-markercluster";
 import {toast, ToastContainer} from "react-toastify";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import {Select, TYPE} from "baseui/select";
 import {ANCHOR, Drawer} from "baseui/drawer";
 import SubmissionCard from "./SubmissionCard";
+import {Modal, ModalBody, ModalButton, ModalFooter, ModalHeader, ROLE, SIZE} from "baseui/modal";
+import {useNavigate} from "react-router-dom";
 
 function Home() {
     const axiosPrivate = useAxiosPrivate()
@@ -27,8 +29,13 @@ function Home() {
 
     // marker state
     const [subPoints, setSubPoints] = useState([]);
-
     const popupElRef = useRef(null);
+
+    // adding state
+    const [addMarkerPosition, setAddMarkerPosition] = useState([0, 0]);
+    const navigate = useNavigate();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const hideElement = () => {
         if (!popupElRef.current) return;
         popupElRef.current.close();
@@ -125,6 +132,24 @@ function Home() {
         setFormBody(null);
     }
 
+    function MapClickHandler() {
+        useMapEvent('click', (e) => {
+            const { lat, lng } = e.latlng;
+            setAddMarkerPosition([lat, lng]);
+            setIsModalOpen(true);
+            console.log(addMarkerPosition);
+        })
+        return null
+    }
+
+    const handleSubmission = () => {
+        navigate("/add-submission", {
+            state: {
+                position: addMarkerPosition,
+            }
+        });
+    }
+
 
     return (
         <>
@@ -164,6 +189,7 @@ function Home() {
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
+                    <MapClickHandler/>
 
                     <MarkerClusterGroup>
                         {subPoints.map((point, index) => (
@@ -184,12 +210,33 @@ function Home() {
                     </MarkerClusterGroup>
                 </MapContainer>
             </Container>
+            <Modal
+                onClose={() => setIsModalOpen(false)}
+                closeable
+                isOpen={isModalOpen}
+                animate
+                autoFocus
+                size={SIZE.default}
+                role={ROLE.dialog}
+            >
+                <ModalHeader>New submission</ModalHeader>
+                <ModalBody>
+                    Do you want to add a new submission at this location?
+                </ModalBody>
+                <ModalFooter>
+                    <ModalButton kind={KIND.tertiary} onClick={() => setIsModalOpen(false)}>
+                        Cancel
+                    </ModalButton>
+                    <ModalButton onClick={handleSubmission}>Okay</ModalButton>
+                </ModalFooter>
+            </Modal>
 
             <Drawer
                 isOpen={isOpen}
                 autoFocus
                 onClose={drawerOnCloseHandler}
                 anchor={ANCHOR.right}
+                animate
             >
                 <SubmissionCard form={formBody} image={formImage}/>
             </Drawer>
