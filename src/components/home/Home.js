@@ -137,7 +137,6 @@ function Home() {
             const { lat, lng } = e.latlng;
             setAddMarkerPosition([lat, lng]);
             setIsModalOpen(true);
-            console.log(addMarkerPosition);
         })
         return null
     }
@@ -215,7 +214,6 @@ function Home() {
                 closeable
                 isOpen={isModalOpen}
                 animate
-                autoFocus
                 size={SIZE.default}
                 role={ROLE.dialog}
             >
@@ -225,9 +223,9 @@ function Home() {
                 </ModalBody>
                 <ModalFooter>
                     <ModalButton kind={KIND.tertiary} onClick={() => setIsModalOpen(false)}>
-                        Cancel
+                        No
                     </ModalButton>
-                    <ModalButton onClick={handleSubmission}>Okay</ModalButton>
+                    <ModalButton onClick={handleSubmission}>Yes</ModalButton>
                 </ModalFooter>
             </Modal>
 
