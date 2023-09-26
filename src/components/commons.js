@@ -17,6 +17,17 @@ export const Container = styled.div`
   background: #121212;
 `;
 
+export const ContainerForNavbar = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  background: #121212;
+`;
+
+
 
 export const InnerContainer = styled.div`
   display: flex;

@@ -1,10 +1,12 @@
-import {Container, DefaultHeader, InnerContainer} from "../commons";
+import {ContainerForNavbar, DefaultHeader, InnerContainer} from "../commons";
 import {ParagraphMedium} from "baseui/typography";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {useCallback, useEffect, useState} from "react";
 import axiosPrivate from "../../api/axios";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Navbar from "../navbar/Navbar";
+import "../navbar/Navbar.css"
 
 const Activation = () => {
     const navigate = useNavigate()
@@ -55,7 +57,7 @@ const Activation = () => {
                 <InnerContainer>
                     <DefaultHeader>You are all set!</DefaultHeader>
                     <ParagraphMedium>
-                        Your account has been activated.
+                        Your account has been activated. Proceed to login.
                     </ParagraphMedium>
                 </InnerContainer>
             )
@@ -73,9 +75,10 @@ const Activation = () => {
 
     return (
         <>
-            <Container>
+            <Navbar/>
+            <ContainerForNavbar className="big-navbar-gap">
                 {getBody()}
-            </Container>
+            </ContainerForNavbar>
             <ToastContainer
                 position="top-center"
                 autoClose={5000}

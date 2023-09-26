@@ -12,8 +12,7 @@ export const axiosPrivate = axios.create({
     withCredentials: true
 });
 
-export const aiAxiosPrivate = axios.create({
+export const aiAxios = axios.create({
     baseURL: AI_BASE_URL,
-    headers: { 'Content-Type': 'application/json' },
-    withCredentials: true
+    headers: { 'Content-Type': 'application/json' }
 });

@@ -1,7 +1,14 @@
 import {useLocation, useNavigate} from "react-router-dom";
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {Container, FormButtonWrapper, InnerContainer, InputReplacement, InputWrapper, StyledInput} from "../commons";
+import {
+    ContainerForNavbar,
+    FormButtonWrapper,
+    InnerContainer,
+    InputReplacement,
+    InputWrapper,
+    StyledInput
+} from "../commons";
 import {HeadingXXLarge} from "baseui/typography";
 import {useFormik} from "formik";
 import {Button} from "baseui/button";
@@ -9,15 +16,16 @@ import {toast, ToastContainer} from "react-toastify";
 import {Input} from "baseui/input";
 import {Textarea} from "baseui/textarea";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import {aiAxios} from "../../api/axios";
 import {DatePicker} from "baseui/datepicker";
-import useAiAxiosPrivate from "../../hooks/useAiAxiosPrivate";
+import Navbar from "../navbar/Navbar";
+import "../navbar/Navbar.css"
 
 const NewSubmission = () => {
     const {state} = useLocation();
     const navigate = useNavigate();
     const [value, setValue] = useState('');
     const axiosPrivate = useAxiosPrivate();
-    const aiAxiosPrivate = useAiAxiosPrivate();
     const [file, setFile] = useState(undefined);
     const [defaultTagsLoaded, setDefaultTagsLoaded] = useState(false);
 
@@ -145,7 +153,7 @@ const NewSubmission = () => {
 
 
         const response = await toast.promise(
-            aiAxiosPrivate.post("/classifier/classify", formData, {
+            aiAxios.post("/classifier/classify", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 }
@@ -173,7 +181,8 @@ const NewSubmission = () => {
 
     return (
         <>
-            <Container>
+            <Navbar/>
+            <ContainerForNavbar className="med-navbar-gap">
                 <InnerContainer>
                     <div>
                         <HeadingXXLarge>Tell us the whole story!</HeadingXXLarge>
@@ -231,7 +240,7 @@ const NewSubmission = () => {
                         </FormButtonWrapper>
                     </div>
                 </InnerContainer>
-            </Container>
+            </ContainerForNavbar>
             <ToastContainer
                 position="top-center"
                 autoClose={5000}

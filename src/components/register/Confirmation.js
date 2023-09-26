@@ -1,7 +1,9 @@
-import {Container, DefaultHeader, InnerContainer} from "../commons";
+import {ContainerForNavbar, DefaultHeader, InnerContainer} from "../commons";
 import {ParagraphMedium} from "baseui/typography";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useEffect} from "react";
+import Navbar from "../navbar/Navbar";
+import "../navbar/Navbar.css"
 
 const Confirmation = () => {
     const {state} = useLocation();
@@ -14,14 +16,17 @@ const Confirmation = () => {
     }, [state, navigate]);
 
     return (
-        <Container>
-            <InnerContainer>
-                <DefaultHeader>{state?.header}</DefaultHeader>
-                <ParagraphMedium>
-                    {state?.msg} {state?.email}
-                </ParagraphMedium>
-            </InnerContainer>
-        </Container>
+        <>
+            <Navbar/>
+            <ContainerForNavbar className="big-navbar-gap">
+                <InnerContainer>
+                    <DefaultHeader>{state?.header}</DefaultHeader>
+                    <ParagraphMedium>
+                        {state?.msg} {state?.email}
+                    </ParagraphMedium>
+                </InnerContainer>
+            </ContainerForNavbar>
+        </>
     );
 };
 

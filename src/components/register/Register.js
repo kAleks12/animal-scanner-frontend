@@ -1,7 +1,7 @@
 import {Button} from "baseui/button";
 import {HeadingXXLarge,} from "baseui/typography";
 import {
-    Container,
+    ContainerForNavbar,
     DefaultLink,
     FormButtonWrapper,
     InnerContainer,
@@ -16,6 +16,8 @@ import {useNavigate} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "../../api/axios";
+import Navbar from "../navbar/Navbar";
+import "../navbar/Navbar.css"
 
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 
@@ -82,7 +84,8 @@ function Register() {
 
     return (
         <>
-            <Container>
+            <Navbar/>
+            <ContainerForNavbar className="med-navbar-gap">
                 <InnerContainer>
                     <form onSubmit={formik.handleSubmit}>
                         <HeadingXXLarge>Pleased to meet you!</HeadingXXLarge>
@@ -139,7 +142,7 @@ function Register() {
                         </RegisterLinkContainer>
                     </form>
                 </InnerContainer>
-            </Container>
+            </ContainerForNavbar>
             <ToastContainer
                 position="top-center"
                 autoClose={5000}

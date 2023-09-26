@@ -1,4 +1,4 @@
-import {Container, FormButtonWrapper, InnerContainer, InputWrapper, StyledInput} from "../commons";
+import {ContainerForNavbar, FormButtonWrapper, InnerContainer, InputWrapper, StyledInput} from "../commons";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axiosPrivate from "../../api/axios";
@@ -7,6 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import {Button} from "baseui/button";
 import {useFormik} from "formik";
 import {HeadingXXLarge} from "baseui/typography";
+import Navbar from "../navbar/Navbar";
+import "../navbar/Navbar.css"
 
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 
@@ -17,13 +19,8 @@ const SetPassword = () => {
     const token = searchParams.get("token")
     const [validPassword, setValidPwd] = useState(false);
     const [validMatch, setValidMatch] = useState(false);
-    const [passwordSet, setPasswordSet] = useState(false)
 
     const onSubmit = async (values) => {
-        if (passwordSet) {
-            toast.error("Password was already set");
-            return;
-        }
         if (!validMatch) {
             toast.error("Passwords must match");
             return;
@@ -42,8 +39,10 @@ const SetPassword = () => {
                     params: {new_password: values.password}
                 }
             );
-            toast.success("Password was updated successfully");
-            setPasswordSet(true);
+            toast.success("Password was updated successfully", {autoClose: false});
+            await new Promise(r => setTimeout(r, 3000));
+            navigate("/login");
+
         } catch (err) {
             if (err?.code === "ERR_NETWORK") {
                 toast.error("Connection to server failed");
@@ -80,7 +79,8 @@ const SetPassword = () => {
 
     return (
         <>
-            <Container>
+            <Navbar/>
+            <ContainerForNavbar className="big-navbar-gap">
                 <InnerContainer>
                     <HeadingXXLarge>Set new password!</HeadingXXLarge>
                     <form onSubmit={formik.handleSubmit}>
@@ -113,7 +113,7 @@ const SetPassword = () => {
                         </FormButtonWrapper>
                     </form>
                 </InnerContainer>
-            </Container>
+            </ContainerForNavbar>
             <ToastContainer
                 position="top-center"
                 autoClose={5000}

@@ -1,7 +1,7 @@
 import {Button} from "baseui/button";
 import {HeadingXXLarge,} from "baseui/typography";
 import {
-    Container,
+    ContainerForNavbar,
     DefaultLink,
     FormButtonWrapper,
     InnerContainer,
@@ -16,6 +16,8 @@ import {useLocation, useNavigate} from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Navbar from "../navbar/Navbar";
+import "../navbar/Navbar.css"
 
 const LOGIN_URL = 'auth/login';
 
@@ -62,7 +64,8 @@ function Login() {
 
     return (
         <>
-            <Container>
+            <Navbar/>
+            <ContainerForNavbar className="big-navbar-gap">
                 <InnerContainer>
                     <form onSubmit={formik.handleSubmit}>
                         <HeadingXXLarge>Welcome Back!</HeadingXXLarge>
@@ -99,7 +102,7 @@ function Login() {
                         </LoginLinkContainer>
                     </form>
                 </InnerContainer>
-            </Container>
+            </ContainerForNavbar>
             <ToastContainer
                 position="top-center"
                 autoClose={5000}

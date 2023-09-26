@@ -1,4 +1,4 @@
-import {Container, FormButtonWrapper, InnerContainer, InputWrapper, StyledInput} from "../commons";
+import {ContainerForNavbar, FormButtonWrapper, InnerContainer, InputWrapper, StyledInput} from "../commons";
 import {useNavigate} from "react-router-dom";
 import axiosPrivate from "../../api/axios";
 import {toast, ToastContainer} from "react-toastify";
@@ -6,6 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import {Button} from "baseui/button";
 import {useFormik} from "formik";
 import {HeadingXXLarge, ParagraphMedium} from "baseui/typography";
+import Navbar from "../navbar/Navbar";
+import "../navbar/Navbar.css"
 
 const ResetPassword = () => {
     const navigate = useNavigate()
@@ -45,7 +47,8 @@ const ResetPassword = () => {
 
     return (
         <>
-            <Container>
+            <Navbar/>
+            <ContainerForNavbar className="big-navbar-gap">
                 <InnerContainer>
                     <form onSubmit={formik.handleSubmit}>
                         <HeadingXXLarge>Account password reset request</HeadingXXLarge>
@@ -68,7 +71,7 @@ const ResetPassword = () => {
                         </FormButtonWrapper>
                     </form>
                 </InnerContainer>
-            </Container>
+            </ContainerForNavbar>
             <ToastContainer
                 position="top-center"
                 autoClose={5000}

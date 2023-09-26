@@ -2,7 +2,7 @@ import * as React from "react";
 import {useEffect, useRef, useState} from "react";
 import {MapContainer, Marker, Popup, TileLayer, useMap, useMapEvent} from 'react-leaflet'
 import "./Home.css";
-import {Container, SearchInputWrapper, SearchWrapper, StyledInput} from "../commons";
+import {ContainerForNavbar, SearchInputWrapper, SearchWrapper, StyledInput} from "../commons";
 import {Button, KIND} from "baseui/button";
 import MarkerClusterGroup from "@changey/react-leaflet-markercluster";
 import {toast, ToastContainer} from "react-toastify";
@@ -11,6 +11,8 @@ import {Select, TYPE} from "baseui/select";
 import SubmissionCard from "./SubmissionCard";
 import {Modal, ModalBody, ModalButton, ModalFooter, ModalHeader, ROLE, SIZE} from "baseui/modal";
 import {useNavigate} from "react-router-dom";
+import Navbar from "../navbar/Navbar";
+import "../navbar/Navbar.css"
 
 function Home() {
     const axiosPrivate = useAxiosPrivate()
@@ -151,8 +153,9 @@ function Home() {
 
     return (
         <>
-            <Container>
-                <SearchWrapper>
+            <Navbar/>
+            <ContainerForNavbar>
+                <SearchWrapper className="navbar-gap">
                     <SearchInputWrapper>
                         <StyledInput
                             name="user"
@@ -208,7 +211,7 @@ function Home() {
                         ))}
                     </MarkerClusterGroup>
                 </MapContainer>
-            </Container>
+            </ContainerForNavbar>
             <Modal
                 onClose={() => setIsModalOpen(false)}
                 closeable
