@@ -119,7 +119,11 @@ const NewSubmission = () => {
             } else {
                 toast.error("Unknown error");
             }
+            return;
         }
+        toast.success("Submission created, redirecting in 2 seconds", {autoClose: false});
+        await new Promise(r => setTimeout(r, 2000));
+        navigate("/");
     };
 
     const formik = useFormik({
