@@ -8,7 +8,6 @@ import MarkerClusterGroup from "@changey/react-leaflet-markercluster";
 import {toast, ToastContainer} from "react-toastify";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import {Select, TYPE} from "baseui/select";
-import {ANCHOR, Drawer} from "baseui/drawer";
 import SubmissionCard from "./SubmissionCard";
 import {Modal, ModalBody, ModalButton, ModalFooter, ModalHeader, ROLE, SIZE} from "baseui/modal";
 import {useNavigate} from "react-router-dom";
@@ -126,7 +125,7 @@ function Home() {
         }
     }
 
-    const drawerOnCloseHandler = () => {
+    const submissionModalOnCloseHandler = () => {
         setIsOpen(false);
         setFormImage(null);
         setFormBody(null);
@@ -134,7 +133,7 @@ function Home() {
 
     function MapClickHandler() {
         useMapEvent('click', (e) => {
-            const { lat, lng } = e.latlng;
+            const {lat, lng} = e.latlng;
             setAddMarkerPosition([lat, lng]);
             setIsModalOpen(true);
         })
@@ -177,6 +176,7 @@ function Home() {
                             value={selectVal}
                             maxDropdownHeight="300px"
                             type={TYPE.search}
+                            size="large"
                             placeholder="Pick result"
                         />
                     </div>
@@ -228,16 +228,19 @@ function Home() {
                     <ModalButton onClick={handleSubmission}>Yes</ModalButton>
                 </ModalFooter>
             </Modal>
-
-            <Drawer
+            <Modal
+                onClose={submissionModalOnCloseHandler}
+                closeable
                 isOpen={isOpen}
-                autoFocus
-                onClose={drawerOnCloseHandler}
-                anchor={ANCHOR.right}
                 animate
+                size={SIZE.default}
+                role={ROLE.dialog}
             >
-                <SubmissionCard form={formBody} image={formImage}/>
-            </Drawer>
+                <ModalHeader>Submission view</ModalHeader>
+                <ModalBody>
+                    <SubmissionCard form={formBody} image={formImage}/>
+                </ModalBody>
+            </Modal>
 
             <ToastContainer
                 position="top-center"
