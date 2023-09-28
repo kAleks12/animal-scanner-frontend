@@ -9,3 +9,11 @@
 .med-navbar-gap {
     padding-top: 15rem;
 }
+
+.logo-text {
+    height: 64px;
+}
+
+.logo-wrapper {
+    display: block;
+}

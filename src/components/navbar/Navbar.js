@@ -52,7 +52,11 @@ const Navbar = () => {
         auth?.user ? (
             <div className="navbar">
                 <AppNavBar
-                    title="Animal Scanner"
+                    title={
+                        <span className="logo-wrapper">
+                         <img className="logo-text" src="./animal_scanner.png" alt="Animal scanner"/>
+                        </span>
+                    }
                     mainItems={mainItems}
                     onMainItemSelect={item => handleMainItemsChange(item)}
                     username={auth.user}
