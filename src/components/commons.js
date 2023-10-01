@@ -25,6 +25,7 @@ export const ContainerForNavbar = styled.div`
   justify-content: flex-start;
   flex-direction: column;
   background: #121212;
+  padding-top: 4rem;
 `;
 
 

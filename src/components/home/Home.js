@@ -154,7 +154,7 @@ function Home() {
     return (
         <>
             <Navbar/>
-            <ContainerForNavbar>
+            <ContainerForNavbar style={{paddingTop: 0}}>
                 <SearchWrapper className="navbar-gap">
                     <SearchInputWrapper>
                         <StyledInput
