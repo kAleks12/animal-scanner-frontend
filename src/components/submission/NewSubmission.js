@@ -81,7 +81,7 @@ const NewSubmission = () => {
 
             let dateTimeObj = values.date[0];
             let date = dateTimeObj.getFullYear() + "-";
-            if (dateTimeObj.getMonth() < 10) {
+            if (dateTimeObj.getMonth() + 1 < 10) {
                 date += "0";
             }
             date = date + (dateTimeObj.getMonth() + 1) + "-";
@@ -131,7 +131,11 @@ const NewSubmission = () => {
         }
         toast.success("Submission created, redirecting in 2 seconds", {autoClose: false});
         await new Promise(r => setTimeout(r, 2000));
-        navigate("/");
+        navigate("/", {
+            state: {
+                position: state?.position
+            }
+        });
     };
 
     const formik = useFormik({

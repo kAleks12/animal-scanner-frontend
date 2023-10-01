@@ -10,12 +10,13 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import {Select, TYPE} from "baseui/select";
 import SubmissionCard from "./SubmissionCard";
 import {Modal, ModalBody, ModalButton, ModalFooter, ModalHeader, ROLE, SIZE} from "baseui/modal";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import Navbar from "../navbar/Navbar";
 import "../navbar/Navbar.css"
 
 function Home() {
     const axiosPrivate = useAxiosPrivate()
+    const {state} = useLocation();
     const [center, setCenter] = useState([51.1089776, 17.0326689]);
 
     // search states
@@ -36,6 +37,11 @@ function Home() {
     const [addMarkerPosition, setAddMarkerPosition] = useState([0, 0]);
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+    useEffect(() => {
+        setCenter(state?.position || [51.1089776, 17.0326689]);
+    }, [state]);
 
     const hideElement = () => {
         if (!popupElRef.current) return;
@@ -136,6 +142,7 @@ function Home() {
     function MapClickHandler() {
         useMapEvent('click', (e) => {
             const {lat, lng} = e.latlng;
+            setCenter([lat, lng]);
             setAddMarkerPosition([lat, lng]);
             setIsModalOpen(true);
         })
