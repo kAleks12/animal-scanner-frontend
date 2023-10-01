@@ -23,6 +23,7 @@ function App() {
             <Routes>
                 <Route element={<RequireAuth/>}>
                     <Route path={"/"} element={<Home/>}/>
+                    <Route path="/add-submission" element={<NewSubmission/>}></Route>
                 </Route>
                 <Route path="/login" element={<Login/>}></Route>
                 <Route path="/register" element={<Register/>}></Route>
@@ -30,7 +31,6 @@ function App() {
                 <Route path="/activation" element={<Activation/>}></Route>
                 <Route path="/set-password" element={<SetPassword/>}></Route>
                 <Route path="/reset-password" element={<ResetPassword/>}></Route>
-                <Route path="/add-submission" element={<NewSubmission/>}></Route>
             </Routes>
         </AppContainer>
     );
