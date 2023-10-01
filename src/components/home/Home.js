@@ -23,6 +23,7 @@ function Home() {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectVal, setSelectVal] = useState([]);
     const [searchItems, setSearchItems] = useState([]);
+    const controlRef = useRef(null);
 
     // drawer states
     const [isOpen, setIsOpen] = useState(false);
@@ -84,8 +85,9 @@ function Home() {
         }
     }
 
-    const fetchOptions = async () => {
+    const fetchOptions = async (e) => {
         try {
+            e.preventDefault();
             if (searchQuery.length < 3) {
                 toast("Enter more than 3 characters")
                 return;
@@ -97,8 +99,10 @@ function Home() {
                     success: 'Search results loaded',
                 }
             );
+            setSearchItems(response.data);
+            controlRef.current.focus();
+            controlRef.current.setDropdownOpen(true);
 
-            setSearchItems(response.data)
         } catch (err) {
             if (err?.code === "ERR_NETWORK") {
                 toast.error("Connection to server failed");
@@ -162,21 +166,24 @@ function Home() {
         <>
             <Navbar/>
             <ContainerForNavbar style={{paddingTop: 0}}>
-                <SearchWrapper className="navbar-gap">
-                    <SearchInputWrapper>
-                        <StyledInput
-                            name="user"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="Search for a place"
-                            clearOnEscape
-                            size="large"
-                            type="text"
-                        />
-                        <Button size="large" kind="primary" onClick={fetchOptions}>
-                            Search
-                        </Button>
-                    </SearchInputWrapper>
+                <SearchWrapper>
+                    <form onSubmit={fetchOptions} style={{width: "100%"}}>
+                        <SearchInputWrapper>
+                            <StyledInput
+                                name="user"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                placeholder="Search for a place"
+                                clearOnEscape
+                                size="large"
+                                type="text"
+                                autoComplete={"off"}
+                            />
+                            <Button size="large" kind="primary" type="submit">
+                                Search
+                            </Button>
+                        </SearchInputWrapper>
+                    </form>
                     <div className="select">
                         <Select
                             options={searchItems}
@@ -188,6 +195,7 @@ function Home() {
                             type={TYPE.search}
                             size="large"
                             placeholder="Pick result"
+                            controlRef={controlRef}
                         />
                     </div>
                 </SearchWrapper>
@@ -247,7 +255,7 @@ function Home() {
                 role={ROLE.dialog}
                 overrides={{
                     Dialog: {
-                        style: ({ $theme }) => ({
+                        style: ({$theme}) => ({
                             border: `${$theme.colors.primary50} solid`
                         })
                     }
