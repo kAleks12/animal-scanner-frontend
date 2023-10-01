@@ -10,7 +10,7 @@ const SubmissionCard = ({image, form}) => {
 
     return (
         <div className='submission-container'>
-            <img src={image} alt="Submitted animal" style={{width: '100%', height: '200px', objectFit: 'cover'}}/>
+            <img src={image} alt="Submitted animal" style={{width: '100%', height: '200px', objectFit: 'cover', borderRadius: "10px"}}/>
             <p><FaRegCalendarAlt/> {form?.date}</p>
             <p><FaMapMarkerAlt/> lon = {form?.x} ; lan = {form?.y}</p>
             <p><FaUser/> {form?.author?.username}</p>
