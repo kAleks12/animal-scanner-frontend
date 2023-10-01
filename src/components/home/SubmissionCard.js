@@ -7,14 +7,16 @@ const SubmissionCard = ({image, form}) => {
         form?.tags.push({value: "No tags provided"});
     }
     const description = form?.description || "No description provided";
+    const username = form?.author?.username || "Account deleted";
+    const email = form?.author?.email || "Account deleted";
 
     return (
         <div className='submission-container'>
             <img src={image} alt="Submitted animal" style={{width: '100%', height: '200px', objectFit: 'cover', borderRadius: "10px"}}/>
-            <p><FaRegCalendarAlt/> {form?.date}</p>
-            <p><FaMapMarkerAlt/> lon = {form?.x} ; lan = {form?.y}</p>
-            <p><FaUser/> {form?.author?.username}</p>
-            <p><FaEnvelope/> {form?.author?.email} </p>
+            <div style={{display: "flex", alignItems: "center", columnGap: "0.5rem"}}><FaRegCalendarAlt/> {form?.date}</div>
+            <div style={{display: "flex", alignItems: "center", columnGap: "0.5rem"}}><FaMapMarkerAlt/> {form?.x}, {form?.y}</div>
+            <div style={{display: "flex", alignItems: "center", columnGap: "0.5rem"}}><FaUser/> {username}</div>
+            <div style={{display: "flex", alignItems: "center", columnGap: "0.5rem"}}><FaEnvelope/> {email} </div>
             <div>
                 <FaTags/>
                 {form?.tags.map((tag, index) => (

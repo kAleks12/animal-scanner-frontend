@@ -1,6 +1,7 @@
 .submission-container {
     display: flex;
     flex-direction: column;
+    row-gap: 1rem;
     padding: 1rem;
     margin-bottom: 10px;
     align-self: center;
