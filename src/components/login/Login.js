@@ -38,7 +38,8 @@ function Login() {
             });
 
             const accessToken = response?.data?.access_token;
-            setAuth({user, accessToken});
+            const refreshToken = response?.data?.refresh_token;
+            setAuth({user, accessToken, refreshToken});
             navigate(from, {replace: true});
         } catch (err) {
             if (err?.code === "ERR_NETWORK") {

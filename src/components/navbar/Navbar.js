@@ -3,12 +3,12 @@ import {useState} from "react";
 import {AppNavBar, setItemActive} from "baseui/app-nav-bar";
 import useAuth from "../../hooks/useAuth";
 import {useNavigate} from "react-router-dom";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+
 import {FaSignOutAlt} from "react-icons/fa";
+import axios from "../../api/axios";
 
 const Navbar = () => {
     const {auth, setAuth} = useAuth();
-    const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const [mainItems, setMainItems] = useState([
         {label: "Home"},
@@ -33,8 +33,15 @@ const Navbar = () => {
 
     const handleUserItemsChange = async (item) => {
         if (item?.label === "Logout") {
-            await axiosPrivate.post("/auth/logout");
+            console.log(auth.refreshToken);
+            await axios.post("/auth/logout", null,{
+                headers: {
+                    "Authorization": `Bearer ${auth.refreshToken}`
+                }
+            });
+            console.log("logout");
             setAuth({});
+            navigate("/login");
         }
     }
 
