@@ -4,14 +4,14 @@ import {useEffect, useState} from "react";
 import {
     ContainerForNavbar,
     FormButtonWrapper,
-    InnerContainer,
     InputReplacement,
     InputWrapper,
+    NewSubmissionContainer,
     StyledInput
 } from "../commons";
 import {HeadingXXLarge} from "baseui/typography";
 import {useFormik} from "formik";
-import {Button} from "baseui/button";
+import {Button, KIND} from "baseui/button";
 import {toast, ToastContainer} from "react-toastify";
 import {Input} from "baseui/input";
 import {Textarea} from "baseui/textarea";
@@ -20,6 +20,7 @@ import {aiAxios} from "../../api/axios";
 import {DatePicker} from "baseui/datepicker";
 import Navbar from "../navbar/Navbar";
 import "../navbar/Navbar.css"
+import {Modal, ModalBody, ModalButton, ModalFooter, ModalHeader, ROLE, SIZE} from "baseui/modal";
 
 const NewSubmission = () => {
     const {state} = useLocation();
@@ -28,7 +29,11 @@ const NewSubmission = () => {
     const axiosPrivate = useAxiosPrivate();
     const [file, setFile] = useState(undefined);
     const [defaultTagsLoaded, setDefaultTagsLoaded] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const handleAbort = () => {
+        navigate("/");
+    }
 
     useEffect(() => {
         if (state === null) {
@@ -186,8 +191,8 @@ const NewSubmission = () => {
     return (
         <>
             <Navbar/>
-            <ContainerForNavbar className="med-navbar-gap">
-                <InnerContainer>
+            <ContainerForNavbar>
+                <NewSubmissionContainer>
                     <div>
                         <HeadingXXLarge>Tell us the whole story!</HeadingXXLarge>
                         <InputWrapper>
@@ -238,13 +243,42 @@ const NewSubmission = () => {
                         </InputWrapper>
                         <FormButtonWrapper>
                             <Button size="large" kind="primary" isLoading={formik.isSubmitting}
-                                    onClick={formik.handleSubmit} type='submit'>
+                                    onClick={() => formik.handleSubmit} type='submit'>
                                 Submit
+                            </Button>
+                            <Button size="large" kind="secondary" onClick={() => setIsModalOpen(true)}>
+                                Cancel
                             </Button>
                         </FormButtonWrapper>
                     </div>
-                </InnerContainer>
+                </NewSubmissionContainer>
             </ContainerForNavbar>
+            <Modal
+                onClose={() => setIsModalOpen(false)}
+                closeable
+                isOpen={isModalOpen}
+                animate
+                size={SIZE.default}
+                role={ROLE.dialog}
+                overrides={{
+                    Dialog: {
+                        style: ({$theme}) => ({
+                            border: `${$theme.colors.primary50} solid`
+                        })
+                    }
+                }}
+            >
+                <ModalHeader>Submission cancel</ModalHeader>
+                <ModalBody>
+                    You are about to return to the home page. Are you sure you want to discard the submission?
+                </ModalBody>
+                <ModalFooter>
+                    <ModalButton kind={KIND.tertiary} onClick={() => setIsModalOpen(false)}>
+                        No
+                    </ModalButton>
+                    <ModalButton onClick={handleAbort}>Yes</ModalButton>
+                </ModalFooter>
+            </Modal>
             <ToastContainer
                 position="top-center"
                 autoClose={5000}

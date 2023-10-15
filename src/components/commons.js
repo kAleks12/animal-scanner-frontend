@@ -44,6 +44,21 @@ export const InnerContainer = styled.div`
 `;
 
 
+export const NewSubmissionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(15, 15, 15, 0.6);
+  background-color: #1c1c1c;
+  max-height: 80vh;
+  max-width: 80vw;
+`;
+
+
+
 export const InputWrapper = styled.div`
   width: 100%;
   margin: 1rem 0;
