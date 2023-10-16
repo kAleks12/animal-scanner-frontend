@@ -234,6 +234,13 @@ function Home() {
                 animate
                 size={SIZE.default}
                 role={ROLE.dialog}
+                overrides={{
+                    Dialog: {
+                        style: ({$theme}) => ({
+                            border: `${$theme.colors.primary50} solid`
+                        })
+                    }
+                }}
             >
                 <ModalHeader>New submission</ModalHeader>
                 <ModalBody>

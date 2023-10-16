@@ -4,9 +4,9 @@ import {useEffect, useState} from "react";
 import {
     ContainerForNavbar,
     FormButtonWrapper,
+    InnerContainer,
     InputReplacement,
     InputWrapper,
-    NewSubmissionContainer,
     StyledInput
 } from "../commons";
 import {HeadingXXLarge} from "baseui/typography";
@@ -192,7 +192,7 @@ const NewSubmission = () => {
         <>
             <Navbar/>
             <ContainerForNavbar>
-                <NewSubmissionContainer>
+                <InnerContainer>
                     <div>
                         <HeadingXXLarge>Tell us the whole story!</HeadingXXLarge>
                         <InputWrapper>
@@ -251,7 +251,7 @@ const NewSubmission = () => {
                             </Button>
                         </FormButtonWrapper>
                     </div>
-                </NewSubmissionContainer>
+                </InnerContainer>
             </ContainerForNavbar>
             <Modal
                 onClose={() => setIsModalOpen(false)}
