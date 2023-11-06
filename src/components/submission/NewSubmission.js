@@ -243,7 +243,7 @@ const NewSubmission = () => {
                         </InputWrapper>
                         <FormButtonWrapper>
                             <Button size="large" kind="primary" isLoading={formik.isSubmitting}
-                                    onClick={() => formik.handleSubmit} type='submit'>
+                                    onClick={() => {formik.handleSubmit()}} type='submit'>
                                 Submit
                             </Button>
                             <Button size="large" kind="secondary" onClick={() => setIsModalOpen(true)}>
