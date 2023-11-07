@@ -3,11 +3,10 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import {
     ContainerForNavbar,
-    FormButtonWrapper,
     InnerContainer,
     InputReplacement,
-    InputWrapper,
-    StyledInput
+    InputWrapper, NewSubmissionButtonWrapper,
+    StyledInput, TagWrapper
 } from "../commons";
 import {HeadingXXLarge} from "baseui/typography";
 import {useFormik} from "formik";
@@ -60,6 +59,14 @@ const NewSubmission = () => {
             // Enter
             case 13: {
                 if (!value) return;
+                if (value.length > 50) {
+                    toast.error("Tag is too long");
+                    return;
+                }
+                if (formik.values.tags.length > 10) {
+                    toast.error("Maximum number of tags reached");
+                    return;
+                }
                 if (formik.values.tags.includes(value)) {
                     setValue("");
                     return;
@@ -195,7 +202,7 @@ const NewSubmission = () => {
                 <InnerContainer>
                     <div>
                         <HeadingXXLarge>Tell us the whole story!</HeadingXXLarge>
-                        <InputWrapper>
+                        <InputWrapper style={{maxWidth: "430px"}}>
                             <StyledInput
                                 onChange={handleFileChange}
                                 name="file"
@@ -203,14 +210,14 @@ const NewSubmission = () => {
                                 placeholder="Upload file"
                             />
                         </InputWrapper>
-                        <FormButtonWrapper>
+                        <TagWrapper>
                             <Input
                                 placeholder={formik.values.tags.length ? '' : 'Enter your tags'}
                                 value={value}
                                 onChange={e => setValue(e.currentTarget.value)}
                                 overrides={{
                                     Input: {
-                                        style: {width: 'auto', flexGrow: 1},
+                                        style: {width: 'auto', flexGrow: 1, overflowY: 'scroll', maxHeight: '300px'},
                                         component: InputReplacement,
                                         props: {
                                             tags: formik.values.tags,
@@ -220,11 +227,17 @@ const NewSubmission = () => {
                                     },
                                 }}
                             />
-                            <Button size="large" kind="primary" disabled={defaultTagsLoaded}
-                                    onClick={handleGetDefaultTags}>
-                                Scan
-                            </Button>
-                        </FormButtonWrapper>
+                            <div style={{display: "flex", gap: "1rem"}}>
+                                <Button size="large" kind="secondary" disabled={formik.values.tags.length === 0}
+                                        onClick={() => { formik.setFieldValue('tags', [])}}>
+                                    Clear
+                                </Button>
+                                <Button size="large" kind="primary" disabled={defaultTagsLoaded}
+                                        onClick={handleGetDefaultTags}>
+                                    Scan
+                                </Button>
+                            </div>
+                        </TagWrapper>
                         <InputWrapper>
                             <DatePicker
                                 value={formik.values.date}
@@ -241,15 +254,15 @@ const NewSubmission = () => {
                                 clearOnEscape
                             />
                         </InputWrapper>
-                        <FormButtonWrapper>
+                        <NewSubmissionButtonWrapper>
+                            <Button size="large" kind="secondary" onClick={() => setIsModalOpen(true)}>
+                                Cancel
+                            </Button>
                             <Button size="large" kind="primary" isLoading={formik.isSubmitting}
                                     onClick={() => {formik.handleSubmit()}} type='submit'>
                                 Submit
                             </Button>
-                            <Button size="large" kind="secondary" onClick={() => setIsModalOpen(true)}>
-                                Cancel
-                            </Button>
-                        </FormButtonWrapper>
+                        </NewSubmissionButtonWrapper>
                     </div>
                 </InnerContainer>
             </ContainerForNavbar>

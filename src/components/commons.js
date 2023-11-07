@@ -29,7 +29,6 @@ export const ContainerForNavbar = styled.div`
 `;
 
 
-
 export const InnerContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -39,8 +38,8 @@ export const InnerContainer = styled.div`
   border-radius: 1rem;
   box-shadow: 0 2px 8px rgba(15, 15, 15, 0.6);
   background-color: #1c1c1c;
-  max-height: 80vh;
   max-width: 80vw;
+  max-height: 100%;
 `;
 
 
@@ -66,6 +65,28 @@ export const FormButtonWrapper = styled.div`
   width: 100%;
   margin: 1rem 0;
   gap: 1rem;
+  padding: 1rem 0 0 0;
+`;
+
+export const NewSubmissionButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  margin: 1rem 0;
+  gap: 1rem;
+  padding: 1rem 0 0 0;
+`;
+
+export const TagWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  margin: 1rem 0;
+  gap: 1rem;
+  max-width: 430px;
   padding: 1rem 0 0 0;
 `;
 
@@ -136,7 +157,7 @@ export const InputReplacement = React.forwardRef(
                     flex: '1 1 0%',
                     flexWrap: 'wrap',
                     display: 'flex',
-                    alignItems: 'center',
+                    alignItems: 'center'
                 })}
             >
                 {tags.map((tag, index) => (
