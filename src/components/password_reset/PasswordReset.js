@@ -1,4 +1,4 @@
-import {ContainerForNavbar, FormButtonWrapper, InnerContainer, InputWrapper, StyledInput} from "../commons";
+import {ContainerForNavbar, FormButtonWrapper, InnerContainer, InputWrapper, StyledInput} from "../styles";
 import {useNavigate} from "react-router-dom";
 import axiosPrivate from "../../api/axios";
 import {toast, ToastContainer} from "react-toastify";

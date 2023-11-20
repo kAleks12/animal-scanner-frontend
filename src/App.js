@@ -3,7 +3,7 @@ import "./App.css";
 import styled from "styled-components";
 import {Route, Routes} from "react-router-dom";
 import {Home} from "./components/home/Home";
-import RequireAuth from "./components/common/RequireAuth";
+import RequireAuth from "./components/auth/RequireAuth";
 import {Login} from "./components/login/Login";
 import {Register} from "./components/register/Register";
 import {Confirmation} from "./components/register/Confirmation";

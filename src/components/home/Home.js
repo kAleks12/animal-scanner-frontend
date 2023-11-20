@@ -2,7 +2,7 @@ import * as React from "react";
 import {useEffect, useRef, useState} from "react";
 import {MapContainer, Marker, Popup, TileLayer, useMap, useMapEvent} from 'react-leaflet'
 import "./Home.css";
-import {ContainerForNavbar, SearchInputWrapper, SearchWrapper, StyledInput} from "../commons";
+import {ContainerForNavbar, SearchInputWrapper, SearchWrapper, StyledInput} from "../styles";
 import {Button, KIND} from "baseui/button";
 import MarkerClusterGroup from "@changey/react-leaflet-markercluster";
 import {toast, ToastContainer} from "react-toastify";

@@ -8,7 +8,7 @@ import {
     InputWrapper,
     RegisterLinkContainer,
     StyledInput,
-} from "../commons";
+} from "../styles";
 
 import {useFormik} from "formik";
 import {useEffect, useState} from "react";

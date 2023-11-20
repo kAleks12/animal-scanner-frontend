@@ -8,7 +8,7 @@ import {
     InputWrapper,
     LoginLinkContainer,
     StyledInput,
-} from "../commons";
+} from "../styles";
 
 import {useFormik} from "formik";
 import axios from "../../api/axios";

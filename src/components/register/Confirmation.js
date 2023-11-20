@@ -1,4 +1,4 @@
-import {ContainerForNavbar, DefaultHeader, InnerContainer} from "../commons";
+import {ContainerForNavbar, DefaultHeader, InnerContainer} from "../styles";
 import {ParagraphMedium} from "baseui/typography";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useEffect} from "react";

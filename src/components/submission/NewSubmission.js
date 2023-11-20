@@ -7,7 +7,7 @@ import {
     InputReplacement,
     InputWrapper, NewSubmissionButtonWrapper,
     StyledInput, TagWrapper
-} from "../commons";
+} from "../styles";
 import {HeadingXXLarge} from "baseui/typography";
 import {useFormik} from "formik";
 import {Button, KIND} from "baseui/button";
