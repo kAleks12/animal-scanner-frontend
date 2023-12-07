@@ -91,7 +91,7 @@ const EditSubmission = () => {
           "http://localhost:8080/api/v1/submission/" + state?.form?.id,
           body
       );
-      toast.success("Submission created, redirecting in 2 seconds", {autoClose: false});
+      toast.success("Submission updated, redirecting in 2 seconds", {autoClose: false});
       await new Promise(r => setTimeout(r, 2000));
       navigate("/", {
         state: {
@@ -107,6 +107,7 @@ const EditSubmission = () => {
       } else if (err.response?.status === 422) {
         toast.error("Invalid submission data");
       } else {
+        console.log(err)
         toast.error("Unknown error");
       }
     }
@@ -131,7 +132,7 @@ const EditSubmission = () => {
     });
     formik.setFieldValue('tags', array);
     let date = new Date(Date.parse(state?.form?.date));
-    formik.setFieldValue('date', date);
+    formik.setFieldValue('date', [date]);
     formik.setFieldValue('description', state?.form?.description);
   }, [state, navigate]);
 
@@ -203,7 +204,7 @@ const EditSubmission = () => {
               }
             }}
         >
-          <ModalHeader>Submission cancel</ModalHeader>
+          <ModalHeader>Update cancel</ModalHeader>
           <ModalBody>
             You are about to return to the home page. Are you sure you want to discard any changes?
           </ModalBody>
