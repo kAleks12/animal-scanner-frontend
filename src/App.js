@@ -11,6 +11,7 @@ import {Activation} from "./components/register/Activation";
 import {SetPassword} from "./components/password_reset/SetPassword";
 import {ResetPassword} from "./components/password_reset/PasswordReset";
 import {NewSubmission} from "./components/submission/NewSubmission";
+import {EditSubmission} from "./components/submission/EditSubmission";
 
 const AppContainer = styled.div`
   width: 100%;
@@ -24,6 +25,7 @@ function App() {
                 <Route element={<RequireAuth/>}>
                     <Route path={"/"} element={<Home/>}/>
                     <Route path="/add-submission" element={<NewSubmission/>}></Route>
+                    <Route path="/edit-submission" element={<EditSubmission/>}></Route>
                 </Route>
                 <Route path="/login" element={<Login/>}></Route>
                 <Route path="/register" element={<Register/>}></Route>

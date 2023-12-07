@@ -78,6 +78,14 @@ export const NewSubmissionButtonWrapper = styled.div`
   padding: 1rem 0 0 0;
 `;
 
+export const SubmissionButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 1rem;
+`;
+
 export const TagWrapper = styled.div`
   display: flex;
   flex-direction: column;
