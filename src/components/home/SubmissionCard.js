@@ -22,7 +22,7 @@ const SubmissionCard = ({image, form}) => {
   const handleDelete = async () => {
     try {
       await axiosPrivate.delete(`/submission/${form.id}`);
-      toast.success("Submission deleted");
+      toast.success("Submission deleted", {autoClose: false});
       setTimeout(() => {
         window.location.reload();
       }, 2000);
@@ -52,7 +52,7 @@ const SubmissionCard = ({image, form}) => {
       <Button kind="secondary" style={{width: '5rem'}} onClick={handleEdit}>
         Edit
       </Button>
-      <Button kind="secondary" style={{width: '5rem'}} onClick={handleDelete}>
+      <Button kind="secondary" style={{width: '5rem'}} onClick={() => handleDelete()}>
         Delete
       </Button>
     </SubmissionButtonWrapper>;

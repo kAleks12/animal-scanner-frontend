@@ -29,7 +29,7 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-    <React.StrictMode>
+    // <React.StrictMode>
         <StyletronProvider value={engine}>
             <BaseProvider
                 theme={DarkTheme}
@@ -48,5 +48,5 @@ root.render(
                 </Centered>
             </BaseProvider>
         </StyletronProvider>
-    </React.StrictMode>
+    // </React.StrictMode>
 );
